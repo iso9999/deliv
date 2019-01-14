@@ -32,34 +32,32 @@ public class Order {
 	private Client client;
 	
 	@OneToMany(
-		mappedBy="order",
-		cascade = CascadeType.ALL,
-		orphanRemoval = true
+		mappedBy="order"
 	)
 	private List<ProductOrder> products = new ArrayList<>();
 	
 	public void addProduct(Product product,int quantity)
 	{
-		ProductOrder productOrder = new ProductOrder(quantity, product, this);
+		ProductOrder productOrder = new ProductOrder( product, this,quantity);
 		products.add(productOrder);
 		product.getOrders().add(productOrder);
 	}
 	
-	public void removeProduct(Product product)
-	{
-		for (Iterator<ProductOrder> iterator = products.iterator(); iterator.hasNext();)
-		{
-			ProductOrder productOrder = iterator.next();
-			
-			if(productOrder.equals(this) && productOrder.getProduct().equals(product))
-			{
-				iterator.remove();
-				productOrder.getProduct().getOrders().remove(productOrder);
-				productOrder.setOrder(null);
-				productOrder.setProduct(null);
-			}
-		}
-	}
+//	public void removeProduct(Product product)
+//	{
+//		for (Iterator<ProductOrder> iterator = products.iterator(); iterator.hasNext();)
+//		{
+//			ProductOrder productOrder = iterator.next();
+//			
+//			if(productOrder.equals(this) && productOrder.getProduct().equals(product))
+//			{
+//				iterator.remove();
+//				productOrder.getProduct().getOrders().remove(productOrder);
+//				productOrder.setOrder(null);
+//				productOrder.setProduct(null);
+//			}
+//		}
+//	}
 	public Order() {
 		super();
 	}

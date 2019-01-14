@@ -1,30 +1,27 @@
 package com.ensa.deliveroo.entities;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
-@Table(name ="product_order")
+@Table(name = "product_order")
 public class ProductOrder {
-	public ProductOrderId getId() {
-		return id;
-	}
 
-	public void setId(ProductOrderId id) {
-		this.id = id;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
+	
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product; 
+	
+	@Id
+	@ManyToOne
+	@JoinColumn(name = "order_id")
+	private Order order;
+	
+	private int quantity;
 
 	public Product getProduct() {
 		return product;
@@ -42,29 +39,23 @@ public class ProductOrder {
 		this.order = order;
 	}
 
-	@EmbeddedId
-	private ProductOrderId id;
-	
-	private int quantity;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("productId")
-	private Product product;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("orderId")
-	private Order order;
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public ProductOrder(Product product, Order order, int quantity) {
+		super();
+		this.product = product;
+		this.order = order;
+		this.quantity = quantity;
+	}
 
 	public ProductOrder() {
 		super();
 	}
-
-	public ProductOrder(int quantity, Product product, Order order) {
-		this.quantity = quantity;
-		this.product = product;
-		this.order = order;
-		this.id= new ProductOrderId(product.getId(), order.getId());
-	}
-	
 	
 }
