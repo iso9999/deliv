@@ -1,7 +1,9 @@
 package com.ensa.deliveroo.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -12,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.NaturalId;
 
 @Entity
 public class Product {
@@ -25,13 +26,12 @@ public class Product {
 	private String img_url;
 	
 	@OneToMany(
-			mappedBy="product",
-			cascade = CascadeType.ALL,
-			orphanRemoval = true
+			fetch = FetchType.EAGER,
+			mappedBy="id.product"
 		)
-	private List<ProductOrder> orders = new ArrayList<>();
+	private Set<Order> orders = new HashSet<>();
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id")
 	private Category category;
 
@@ -44,11 +44,11 @@ public class Product {
 		this.category = category;
 	}
 
-	public List<ProductOrder> getOrders() {
+	public Set<Order> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<ProductOrder> orders) {
+	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
 	}
 

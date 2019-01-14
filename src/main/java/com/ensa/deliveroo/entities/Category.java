@@ -1,7 +1,9 @@
 package com.ensa.deliveroo.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -24,7 +26,7 @@ public class Category {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 	)
-	private List<Product> products = new ArrayList<>();
+	private Set<Product> products = new HashSet<>();
 	
 	public void addProcut(Product product)
 	{
@@ -90,10 +92,10 @@ public class Category {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	public List<Product> getProducts() {
+	public Set<Product> getProducts() {
 		return products;
 	}
-	public void setProducts(List<Product> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 }

@@ -3,6 +3,8 @@ package com.ensa.deliveroo.entities;
 import java.io.Serializable;
 
 import javax.persistence.Embeddable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Embeddable
 public class ProductOrderId implements Serializable{
@@ -11,40 +13,49 @@ public class ProductOrderId implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product product;
+	@ManyToOne
+	@JoinColumn(name = "order_id")
+	private Order order;
 	
-	private Long productId;
-	private Long orderId;
+	
 	public ProductOrderId() {
 		super();
 	}
-	public Long getProductId() {
-		return productId;
+	
+	public Product getProduct() {
+		return product;
 	}
-	public void setProductId(Long productId) {
-		this.productId = productId;
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
-	public Long getOrderId() {
-		return orderId;
+
+	public Order getOrder() {
+		return order;
 	}
-	public void setOrderId(Long orderId) {
-		this.orderId = orderId;
+
+	public void setOrder(Order order) {
+		this.order = order;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-	public ProductOrderId(Long productId, Long orderId) {
+
+	public ProductOrderId(Product product, Order order) {
 		super();
-		this.productId = productId;
-		this.orderId = orderId;
+		this.product = product;
+		this.order = order;
 	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-		result = prime * result + ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result + ((order == null) ? 0 : order.hashCode());
+		result = prime * result + ((product == null) ? 0 : product.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -54,16 +65,20 @@ public class ProductOrderId implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		ProductOrderId other = (ProductOrderId) obj;
-		if (orderId == null) {
-			if (other.orderId != null)
+		if (order == null) {
+			if (other.order != null)
 				return false;
-		} else if (!orderId.equals(other.orderId))
+		} else if (!order.equals(other.order))
 			return false;
-		if (productId == null) {
-			if (other.productId != null)
+		if (product == null) {
+			if (other.product != null)
 				return false;
-		} else if (!productId.equals(other.productId))
+		} else if (!product.equals(other.product))
 			return false;
 		return true;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

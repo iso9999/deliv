@@ -2,8 +2,10 @@ package com.ensa.deliveroo.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -27,39 +29,42 @@ public class Order {
 	private Date date;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	public Order(Date date, Client client) {
+		super();
+		this.date = date;
+		this.client = client;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "client_id")
 	private Client client;
 	
 	@OneToMany(
-		mappedBy="order",
-		cascade = CascadeType.ALL,
-		orphanRemoval = true
+			fetch = FetchType.EAGER,
+		mappedBy="id.order"
 	)
-	private List<ProductOrder> products = new ArrayList<>();
+	private Set<Product> products = new HashSet<>();
 	
 	public void addProduct(Product product,int quantity)
 	{
-		ProductOrder productOrder = new ProductOrder(quantity, product, this);
-		products.add(productOrder);
-		product.getOrders().add(productOrder);
+		products.add(product);
+		product.getOrders().add(this);
 	}
 	
-	public void removeProduct(Product product)
-	{
-		for (Iterator<ProductOrder> iterator = products.iterator(); iterator.hasNext();)
-		{
-			ProductOrder productOrder = iterator.next();
-			
-			if(productOrder.equals(this) && productOrder.getProduct().equals(product))
-			{
-				iterator.remove();
-				productOrder.getProduct().getOrders().remove(productOrder);
-				productOrder.setOrder(null);
-				productOrder.setProduct(null);
-			}
-		}
-	}
+//	public void removeProduct(Product product)
+//	{
+//		for (Iterator<ProductOrder> iterator = products.iterator(); iterator.hasNext();)
+//		{
+//			ProductOrder productOrder = iterator.next();
+//			if(productOrder.getId().getOrder().equals(this) && productOrder.getId().getProduct().equals(product))
+//			{
+//				iterator.remove();
+//				productOrder.getId().getProduct().getOrders().remove(productOrder);
+//				productOrder.getId().setOrder(null);
+//				productOrder.getId().setProduct(null);
+//			}
+//		}
+//	}
 	public Order() {
 		super();
 	}
@@ -70,7 +75,7 @@ public class Order {
 	}
 
 	
-	public Order(Date date, Client client, List<ProductOrder> products) {
+	public Order(Date date, Client client, Set<Product> products) {
 		super();
 		this.date = date;
 		this.client = client;
@@ -107,12 +112,12 @@ public class Order {
 	}
 
 
-	public List<ProductOrder> getProducts() {
+	public Set<Product> getProducts() {
 		return products;
 	}
 
 
-	public void setProducts(List<ProductOrder> products) {
+	public void setProducts(Set<Product> products) {
 		this.products = products;
 	}
 
