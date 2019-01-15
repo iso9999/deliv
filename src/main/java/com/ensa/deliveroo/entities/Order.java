@@ -1,5 +1,6 @@
 package com.ensa.deliveroo.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +21,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name ="order_")
-public class Order {
+public class Order implements Serializable{
+	@Override
+	public String toString() {
+		return "Order [id=" + id + ", date=" + date + ", client=" + client + ", products=" + products + "]";
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue
 	private Long id;
@@ -61,6 +71,8 @@ public class Order {
 //			}
 //		}
 //	}
+	
+	
 	public Order() {
 		super();
 	}

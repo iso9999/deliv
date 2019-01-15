@@ -1,5 +1,6 @@
 package com.ensa.deliveroo.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class Product {
+public class Product implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id 
 	@GeneratedValue
 	private Long id;
