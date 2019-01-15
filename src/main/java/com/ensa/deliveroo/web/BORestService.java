@@ -52,6 +52,20 @@ public class BORestService {
 	}
 	
 	
+	@RequestMapping(value="/product/{id}" , method =RequestMethod.PUT)
+	public Product setProduct(@PathVariable Long id, @RequestBody ProductBean p)
+	{
+		Product product  =new Product(p.getLabel(), p.getQuantity(), p.getPrice(), p.getImg_url());
+		product.setId(id);
+		return productRepository.save(product);
+	}
+	
+	@RequestMapping(value="/product/{id}", method=RequestMethod.DELETE)
+	public boolean deleteProduct(@PathVariable Long id) {
+		productRepository.deleteById(id);
+		return true;
+	}
+	
 	@RequestMapping(value = "/test", method = RequestMethod.POST)
     public String test(@RequestBody ProductBean beanTest) {
         return "Hello " + beanTest.getLabel();
