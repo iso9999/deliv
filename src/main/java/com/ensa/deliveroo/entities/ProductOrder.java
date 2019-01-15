@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "product_order")
@@ -23,7 +24,7 @@ public class ProductOrder implements Serializable {
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Product product; 
 	
 	@Id

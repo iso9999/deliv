@@ -30,7 +30,7 @@ public class Order {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id")
-	@JsonBackReference
+	@JsonManagedReference
 	private Client client;
 	
 	@OneToMany(

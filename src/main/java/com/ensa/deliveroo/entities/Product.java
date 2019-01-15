@@ -36,7 +36,7 @@ public class Product {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 		)
-	@JsonManagedReference
+	@JsonBackReference
 	private List<ProductOrder> orders = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)

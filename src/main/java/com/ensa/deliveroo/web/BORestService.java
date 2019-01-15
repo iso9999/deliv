@@ -15,6 +15,7 @@ import com.ensa.deliveroo.dao.CategoryRepository;
 import com.ensa.deliveroo.dao.ClientRepository;
 import com.ensa.deliveroo.dao.OrderRepository;
 import com.ensa.deliveroo.dao.ProductRepository;
+import com.ensa.deliveroo.entities.Order;
 import com.ensa.deliveroo.entities.Product;
 
 
@@ -70,5 +71,14 @@ public class BORestService {
     public String test(@RequestBody ProductBean beanTest) {
         return "Hello " + beanTest.getLabel();
     }
+	
+	
+	@RequestMapping(value="/orders" , method =RequestMethod.GET)
+	public List<Order> getOrders()
+	{
+		List<Order> o = orderRepository.findAll();
+		
+		return orderRepository.findAll();
+	}
 	
 }
