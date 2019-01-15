@@ -15,9 +15,13 @@ import javax.persistence.OneToMany;
 import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Product {
 	@Id 
 	@GeneratedValue
@@ -40,13 +44,14 @@ public class Product {
 	@JsonBackReference
 	private Category category;
 
-	public Product(String label, int quantity, double price, String img_url, Category category) {
+	
+
+	public Product(String label, int quantity, double price, String img_url) {
 		super();
 		this.label = label;
 		this.quantity = quantity;
 		this.price = price;
 		this.img_url = img_url;
-		this.category = category;
 	}
 
 	public List<ProductOrder> getOrders() {
@@ -109,56 +114,6 @@ public class Product {
 		this.category = category;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((img_url == null) ? 0 : img_url.hashCode());
-		result = prime * result + ((label == null) ? 0 : label.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(price);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + quantity;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (img_url == null) {
-			if (other.img_url != null)
-				return false;
-		} else if (!img_url.equals(other.img_url))
-			return false;
-		if (label == null) {
-			if (other.label != null)
-				return false;
-		} else if (!label.equals(other.label))
-			return false;
-		if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
-			return false;
-		if (quantity != other.quantity)
-			return false;
-		return true;
-	}
 	
 	
 }

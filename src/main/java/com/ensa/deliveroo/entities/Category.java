@@ -28,7 +28,6 @@ public class Category {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 	)
-	@JsonManagedReference
 	private List<Product> products = new ArrayList<>();
 	
 	public void addProcut(Product product)
