@@ -1,24 +1,35 @@
 package com.ensa.deliveroo.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "product_order")
-public class ProductOrder {
+public class ProductOrder implements Serializable {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@JsonBackReference
 	private Product product; 
 	
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "order_id")
+	@JsonBackReference
 	private Order order;
 	
 	private int quantity;

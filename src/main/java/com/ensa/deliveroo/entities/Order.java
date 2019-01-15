@@ -2,10 +2,7 @@ package com.ensa.deliveroo.entities;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -16,6 +13,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name ="order_")
@@ -29,11 +29,13 @@ public class Order {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id")
+	@JsonBackReference
 	private Client client;
 	
 	@OneToMany(
 		mappedBy="order"
 	)
+	@JsonManagedReference
 	private List<ProductOrder> products = new ArrayList<>();
 	
 	public void addProduct(Product product,int quantity)
@@ -60,6 +62,12 @@ public class Order {
 //	}
 	public Order() {
 		super();
+	}
+
+	public Order(Date date, Client client) {
+		super();
+		this.date = date;
+		this.client = client;
 	}
 
 	public Order(Date date) {

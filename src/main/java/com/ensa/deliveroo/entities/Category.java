@@ -12,6 +12,10 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Category {
 	@Id
@@ -24,6 +28,7 @@ public class Category {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 	)
+	@JsonManagedReference
 	private List<Product> products = new ArrayList<>();
 	
 	public void addProcut(Product product)

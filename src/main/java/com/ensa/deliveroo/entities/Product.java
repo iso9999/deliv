@@ -14,6 +14,9 @@ import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.NaturalId;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 public class Product {
 	@Id 
@@ -29,10 +32,12 @@ public class Product {
 			cascade = CascadeType.ALL,
 			orphanRemoval = true
 		)
+	@JsonManagedReference
 	private List<ProductOrder> orders = new ArrayList<>();
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "category_id")
+	@JsonBackReference
 	private Category category;
 
 	public Product(String label, int quantity, double price, String img_url, Category category) {
