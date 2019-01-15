@@ -81,4 +81,10 @@ public class BORestService {
 		return orderRepository.findAll();
 	}
 	
+	@RequestMapping(value="/order/{id}", method=RequestMethod.DELETE)
+	public boolean deleteOrder(@PathVariable Long id) {
+		orderRepository.deleteById(id);
+		return true;
+	}
+	
 }
