@@ -1,10 +1,12 @@
 package com.ensa.deliveroo.web;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +17,13 @@ import com.ensa.deliveroo.dao.CategoryRepository;
 import com.ensa.deliveroo.dao.ClientRepository;
 import com.ensa.deliveroo.dao.OrderRepository;
 import com.ensa.deliveroo.dao.ProductRepository;
+import com.ensa.deliveroo.entities.Client;
 import com.ensa.deliveroo.entities.Order;
 import com.ensa.deliveroo.entities.Product;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsonorg.JsonOrgModule;
 
 
 @RestController
@@ -93,11 +100,34 @@ public class BORestService {
 		return true;
 	}
 	
+//	@RequestMapping(value="/order/{id}" , method =RequestMethod.PUT)
+//	public String setOrder(@PathVariable Long id, @RequestBody String order) throws JsonParseException, JsonMappingException, IOException
+//	{
+//		
+//		 ObjectMapper mapper = new ObjectMapper();
+//	        mapper.registerModule(new JsonOrgModule());
+//	        Order model = mapper.readValue(order, Order.class);
+//	        
+//		return order;
+//	}
+	
 	@RequestMapping(value="/order/{id}" , method =RequestMethod.PUT)
-	public Order setOrder(@PathVariable Long id, @RequestBody Order order)
+	public Order setOrder(@PathVariable Long id, @RequestBody Order order) throws JsonParseException, JsonMappingException, IOException
 	{
-		order.setId(id);
+		
+	        order.setId(id);
 		return orderRepository.save(order);
+	}
+	
+	@RequestMapping(value="/order" , method =RequestMethod.POST)
+	public Order addOrder(@RequestBody Order order)
+	{
+		Client client = new Client(order.getClient().getFirstName(), order.getClient().getLastName(), order.getClient().getEmail());
+		client=clientRepository.save(client);
+		order.setClient(client);
+		
+		return orderRepository.save(order);
+//		return order;
 	}
 	
 }

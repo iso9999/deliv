@@ -9,10 +9,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "product_order")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ProductOrder implements Serializable {
 
 	
@@ -24,15 +26,14 @@ public class ProductOrder implements Serializable {
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	@JsonManagedReference
+//	@JsonManagedReference(value="productsInOP")
 	private Product product; 
 	
 	@Id
 	@ManyToOne
 	@JoinColumn(name = "order_id")
-	@JsonBackReference
+	@JsonBackReference(value="productsInOrder")
 	private Order order;
-	
 	private int quantity;
 
 	public Product getProduct() {

@@ -17,10 +17,12 @@ import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name ="order_")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Order implements Serializable{
 	@Override
 	public String toString() {
@@ -40,13 +42,13 @@ public class Order implements Serializable{
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "client_id")
-	@JsonManagedReference
+//	@JsonManagedReference(value="clientInOrder")
 	private Client client;
 	
 	@OneToMany(
 		mappedBy="order"
 	)
-	@JsonManagedReference
+	@JsonManagedReference(value="productsInOrder")
 	private List<ProductOrder> products = new ArrayList<>();
 	
 	public void addProduct(Product product,int quantity)
